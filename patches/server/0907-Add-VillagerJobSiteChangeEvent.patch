@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Togira <70365614+Togira123@users.noreply.github.com>
+Date: Sat, 4 Jun 2022 17:43:54 +0200
+Subject: [PATCH] Add VillagerJobSiteChangeEvent
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
+index 1ddccd256a397a490477bf7b41edc003df5d8d26..80eda6859b65e493f3259d26ff6818d5544ce4f0 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
++++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
+@@ -31,6 +31,13 @@ public class AssignProfessionFromJobSite extends Behavior<Villager> {
+     }
+ 
+     protected void start(ServerLevel world, Villager entity, long time) {
++        // Paper start - VillagerJobSiteChangeEvent
++        boolean cancelled = new io.papermc.paper.event.entity.VillagerJobSiteChangeEvent((org.bukkit.entity.Villager) entity.getBukkitEntity()).callEvent();
++        if (cancelled) {
++            return;
++        }
++        // Paper end - VillagerJobSiteChangeEvent
++
+         GlobalPos globalpos = (GlobalPos) entity.getBrain().getMemory(MemoryModuleType.POTENTIAL_JOB_SITE).get();
+ 
+         entity.getBrain().eraseMemory(MemoryModuleType.POTENTIAL_JOB_SITE);

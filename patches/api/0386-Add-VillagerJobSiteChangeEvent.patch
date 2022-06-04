@@ -1,0 +1,57 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Togira <70365614+Togira123@users.noreply.github.com>
+Date: Sat, 4 Jun 2022 17:42:48 +0200
+Subject: [PATCH] Add VillagerJobSiteChangeEvent
+
+
+diff --git a/src/main/java/io/papermc/paper/event/entity/VillagerJobSiteChangeEvent.java b/src/main/java/io/papermc/paper/event/entity/VillagerJobSiteChangeEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..0ba12e1ba518ca3105c119073275b9d74b1e4f1c
+--- /dev/null
++++ b/src/main/java/io/papermc/paper/event/entity/VillagerJobSiteChangeEvent.java
+@@ -0,0 +1,45 @@
++package io.papermc.paper.event.entity;
++
++import org.bukkit.entity.Villager;
++import org.bukkit.event.Cancellable;
++import org.bukkit.event.HandlerList;
++import org.bukkit.event.entity.EntityEvent;
++import org.jetbrains.annotations.NotNull;
++
++
++public class VillagerJobSiteChangeEvent extends EntityEvent implements Cancellable {
++
++    private static final HandlerList handlers = new HandlerList();
++
++    private boolean cancelled;
++
++    public VillagerJobSiteChangeEvent(@NotNull Villager what) {
++        super(what);
++    }
++
++    @NotNull
++    public Villager getEntity() {
++        return (Villager) entity;
++    }
++
++    @Override
++    public boolean isCancelled() {
++        return cancelled;
++    }
++
++    @Override
++    public void setCancelled(boolean cancel) {
++        this.cancelled = cancel;
++    }
++
++    @NotNull
++    @Override
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++}
