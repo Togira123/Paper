@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Togira <70365614+Togira123@users.noreply.github.com>
+Date: Sat, 4 Jun 2022 17:29:26 +0200
+Subject: [PATCH] Add VillagerHomeChangeEvent
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
+index afbb2acd27416c801af3d718850b82a170734cd3..401c6b606851c2613c716fecbdb2d512b92e37f8 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
++++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
+@@ -67,6 +67,17 @@ public class AcquirePoi extends Behavior<PathfinderMob> {
+ 
+     @Override
+     protected void start(ServerLevel world, PathfinderMob entity, long time) {
++        // Paper start - VillagerHomeChangeEvent
++        if (this.memoryToAcquire.equals(MemoryModuleType.HOME)) {
++            org.bukkit.entity.Entity bukkitEntity = entity.getBukkitEntity();
++            if (bukkitEntity instanceof org.bukkit.entity.Villager) {
++                boolean cancelled = new io.papermc.paper.event.entity.VillagerHomeChangeEvent((org.bukkit.entity.Villager) bukkitEntity).callEvent();
++                if (cancelled) {
++                    return;
++                }
++            }
++        }
++        // Paper end - VillagerHomeChangeEvent
+         this.nextScheduledStart = time + 20L + (long)world.getRandom().nextInt(20);
+         PoiManager poiManager = world.getPoiManager();
+         this.batchCache.long2ObjectEntrySet().removeIf((entry) -> {
