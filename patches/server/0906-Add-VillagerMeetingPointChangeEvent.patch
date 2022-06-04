@@ -5,7 +5,7 @@ Subject: [PATCH] Add VillagerMeetingPointChangeEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
-index 401c6b606851c2613c716fecbdb2d512b92e37f8..e509883a9324ed8a131291709f50d23443555675 100644
+index 60ab2eac57165cf2064e0033ac55a7fd98f11ef6..6836f4cc659a86fae7bc913192163103c4da36ce 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
 @@ -67,7 +67,7 @@ public class AcquirePoi extends Behavior<PathfinderMob> {
@@ -24,7 +24,7 @@ index 401c6b606851c2613c716fecbdb2d512b92e37f8..e509883a9324ed8a131291709f50d234
 +        } else if (this.memoryToAcquire.equals(MemoryModuleType.MEETING_POINT)) {
 +            org.bukkit.entity.Entity bukkitEntity = entity.getBukkitEntity();
 +            if (bukkitEntity instanceof org.bukkit.entity.Villager) {
-+                boolean cancelled = new io.papermc.paper.event.entity.VillagerMeetingPointChangeEvent((org.bukkit.entity.Villager) bukkitEntity).callEvent();
++                boolean cancelled = !new io.papermc.paper.event.entity.VillagerMeetingPointChangeEvent((org.bukkit.entity.Villager) bukkitEntity).callEvent();
 +                if (cancelled) {
 +                    return;
 +                }

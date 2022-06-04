@@ -5,7 +5,7 @@ Subject: [PATCH] Add VillagerHomeChangeEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
-index afbb2acd27416c801af3d718850b82a170734cd3..401c6b606851c2613c716fecbdb2d512b92e37f8 100644
+index afbb2acd27416c801af3d718850b82a170734cd3..60ab2eac57165cf2064e0033ac55a7fd98f11ef6 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
 @@ -67,6 +67,17 @@ public class AcquirePoi extends Behavior<PathfinderMob> {
@@ -16,7 +16,7 @@ index afbb2acd27416c801af3d718850b82a170734cd3..401c6b606851c2613c716fecbdb2d512
 +        if (this.memoryToAcquire.equals(MemoryModuleType.HOME)) {
 +            org.bukkit.entity.Entity bukkitEntity = entity.getBukkitEntity();
 +            if (bukkitEntity instanceof org.bukkit.entity.Villager) {
-+                boolean cancelled = new io.papermc.paper.event.entity.VillagerHomeChangeEvent((org.bukkit.entity.Villager) bukkitEntity).callEvent();
++                boolean cancelled = !new io.papermc.paper.event.entity.VillagerHomeChangeEvent((org.bukkit.entity.Villager) bukkitEntity).callEvent();
 +                if (cancelled) {
 +                    return;
 +                }

@@ -5,7 +5,7 @@ Subject: [PATCH] Add VillagerJobSiteChangeEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
-index 1ddccd256a397a490477bf7b41edc003df5d8d26..80eda6859b65e493f3259d26ff6818d5544ce4f0 100644
+index 1ddccd256a397a490477bf7b41edc003df5d8d26..bf1d2aa6218fd4bb0f3bda3050faf8603fee2530 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
 @@ -31,6 +31,13 @@ public class AssignProfessionFromJobSite extends Behavior<Villager> {
@@ -13,7 +13,7 @@ index 1ddccd256a397a490477bf7b41edc003df5d8d26..80eda6859b65e493f3259d26ff6818d5
  
      protected void start(ServerLevel world, Villager entity, long time) {
 +        // Paper start - VillagerJobSiteChangeEvent
-+        boolean cancelled = new io.papermc.paper.event.entity.VillagerJobSiteChangeEvent((org.bukkit.entity.Villager) entity.getBukkitEntity()).callEvent();
++        boolean cancelled = !new io.papermc.paper.event.entity.VillagerJobSiteChangeEvent((org.bukkit.entity.Villager) entity.getBukkitEntity()).callEvent();
 +        if (cancelled) {
 +            return;
 +        }
