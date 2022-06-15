@@ -5,7 +5,7 @@ Subject: [PATCH] Add VillagerJobSiteChangeEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
-index 1ddccd256a397a490477bf7b41edc003df5d8d26..bf1d2aa6218fd4bb0f3bda3050faf8603fee2530 100644
+index abbc85c900a76685f00f3767ac5e54fc5c833523..e01839fa9802c4a1d697e3ad67630d3d440551cd 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
 @@ -31,6 +31,13 @@ public class AssignProfessionFromJobSite extends Behavior<Villager> {
