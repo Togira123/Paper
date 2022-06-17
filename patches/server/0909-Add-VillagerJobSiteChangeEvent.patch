@@ -4,21 +4,34 @@ Date: Sat, 4 Jun 2022 17:43:54 +0200
 Subject: [PATCH] Add VillagerJobSiteChangeEvent
 
 
-diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
-index abbc85c900a76685f00f3767ac5e54fc5c833523..e01839fa9802c4a1d697e3ad67630d3d440551cd 100644
---- a/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
-+++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AssignProfessionFromJobSite.java
-@@ -31,6 +31,13 @@ public class AssignProfessionFromJobSite extends Behavior<Villager> {
-     }
- 
-     protected void start(ServerLevel world, Villager entity, long time) {
-+        // Paper start - VillagerJobSiteChangeEvent
-+        boolean cancelled = !new io.papermc.paper.event.entity.VillagerJobSiteChangeEvent((org.bukkit.entity.Villager) entity.getBukkitEntity()).callEvent();
-+        if (cancelled) {
-+            return;
-+        }
-+        // Paper end - VillagerJobSiteChangeEvent
-+
-         GlobalPos globalpos = (GlobalPos) entity.getBrain().getMemory(MemoryModuleType.POTENTIAL_JOB_SITE).get();
- 
-         entity.getBrain().eraseMemory(MemoryModuleType.POTENTIAL_JOB_SITE);
+diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
+index 27d5bd9d88df626e0f9945091bd156bc4874e6ad..f766f4d0072ae496f0d541dd165cc5350cbe5c87 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
++++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
+@@ -76,7 +76,7 @@ public class AcquirePoi extends Behavior<PathfinderMob> {
+         this.batchCache.long2ObjectEntrySet().removeIf((entry) -> {
+             return !entry.getValue().isStillValid(time);
+         });
+-        // Paper start - VillagerHomeChangeEvent
++        // Paper start - VillagerHomeChangeEvent, VillagerMeetingPointChangeEvent & VillagerJobSiteChangeEvent
+         if (this.memoryToAcquire.equals(MemoryModuleType.HOME)) {
+             org.bukkit.entity.Entity bukkitEntity = entity.getBukkitEntity();
+             if (bukkitEntity instanceof org.bukkit.entity.Villager) {
+@@ -93,8 +93,16 @@ public class AcquirePoi extends Behavior<PathfinderMob> {
+                     return;
+                 }
+             }
++        } else if (this.memoryToAcquire.equals(MemoryModuleType.JOB_SITE)) {
++            org.bukkit.entity.Entity bukkitEntity = entity.getBukkitEntity();
++            if (bukkitEntity instanceof org.bukkit.entity.Villager) {
++                boolean cancelled = !new io.papermc.paper.event.entity.VillagerJobSiteChangeEvent((org.bukkit.entity.Villager) bukkitEntity).callEvent();
++                if (cancelled) {
++                    return;
++                }
++            }
+         }
+-        // Paper end - VillagerHomeChangeEvent
++        // Paper end - VillagerHomeChangeEvent, VillagerMeetingPointChangeEvent & VillagerJobSiteChangeEvent
+         Predicate<BlockPos> predicate = (pos) -> {
+             AcquirePoi.JitteredLinearRetry jitteredLinearRetry = this.batchCache.get(pos.asLong());
+             if (jitteredLinearRetry == null) {

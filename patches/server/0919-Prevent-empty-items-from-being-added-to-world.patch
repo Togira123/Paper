@@ -7,7 +7,7 @@ The previous solution caused a bunch of bandaid fixes inorder to resolve edge ca
 Just simply prevent them from being added to the world instead.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 0dc7a827aeacc7fae53b1f975f45883da7db6a0c..6ef4160cb9cc836371a03451bdc3f88c84167ec4 100644
+index 41186433f92913f1c397c2007ada58e897f09f57..2b9669df574cf95c2643344a66ad18b213bd9cd7 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1433,6 +1433,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
