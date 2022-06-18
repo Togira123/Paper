@@ -1,0 +1,75 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Togira <70365614+Togira123@users.noreply.github.com>
+Date: Sat, 18 Jun 2022 13:57:01 +0200
+Subject: [PATCH] Add VillagerDropPoiDueToInaccessibilityEvent
+
+
+diff --git a/src/main/java/io/papermc/paper/event/entity/VillagerDropPoiDueToInaccessibilityEvent.java b/src/main/java/io/papermc/paper/event/entity/VillagerDropPoiDueToInaccessibilityEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..7603539ffa61a6caf5b3607554776eae7051971f
+--- /dev/null
++++ b/src/main/java/io/papermc/paper/event/entity/VillagerDropPoiDueToInaccessibilityEvent.java
+@@ -0,0 +1,63 @@
++package io.papermc.paper.event.entity;
++
++import org.bukkit.entity.memory.MemoryKey;
++import org.bukkit.Location;
++import org.bukkit.entity.Villager;
++import org.bukkit.event.Cancellable;
++import org.bukkit.event.HandlerList;
++import org.bukkit.event.entity.EntityEvent;
++import org.jetbrains.annotations.NotNull;
++
++public class VillagerDropPoiDueToInaccessibilityEvent  extends EntityEvent implements Cancellable {
++
++    private static final HandlerList handlers = new HandlerList();
++
++    private boolean cancelled;
++    private final MemoryKey<Location> memoryKey;
++
++    public VillagerDropPoiDueToInaccessibilityEvent(@NotNull Villager what, @NotNull MemoryKey<Location> memoryKey) {
++        super(what);
++        this.memoryKey = memoryKey;
++    }
++
++    /**
++     * The MemoryKey associated with the POI that is dropped.
++     *
++     * @return The MemoryKey.
++     */
++    @NotNull
++    public MemoryKey<Location> getMemoryKey() {
++        return memoryKey;
++    }
++
++    /**
++     * The villager who drops the poi.
++     *
++     * @return The villager.
++     */
++    @NotNull
++    public Villager getEntity() {
++        return (Villager) entity;
++    }
++
++    @Override
++    public boolean isCancelled() {
++        return cancelled;
++    }
++
++    @Override
++    public void setCancelled(boolean cancel) {
++        this.cancelled = cancel;
++    }
++
++    @NotNull
++    @Override
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++}

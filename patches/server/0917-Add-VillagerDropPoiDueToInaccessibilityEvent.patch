@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Togira <70365614+Togira123@users.noreply.github.com>
+Date: Sat, 18 Jun 2022 14:05:37 +0200
+Subject: [PATCH] Add VillagerDropPoiDueToInaccessibilityEvent
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java b/src/main/java/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
+index 4a0ebdd6c6c0a1a91bfa625bce560cb37e785fed..443769d653675d6e62863a0d59cc164c4f9f6114 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
++++ b/src/main/java/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
+@@ -30,6 +30,12 @@ public class SetWalkTargetFromBlockMemory extends Behavior<Villager> {
+     }
+ 
+     private void dropPOI(Villager villager, long time) {
++        // Paper start - Add VillagerDropPoiDueToInaccessibilityEvent
++        boolean cancelled = !new io.papermc.paper.event.entity.VillagerDropPoiDueToInaccessibilityEvent(
++                (org.bukkit.entity.Villager) villager.getBukkitLivingEntity(),
++                org.bukkit.craftbukkit.entity.memory.CraftMemoryKey.toMemoryKey(this.memoryType)).callEvent();
++        if (cancelled) return;
++        // Paper end - Add VillagerDropPoiDueToInaccessibilityEvent
+         Brain<?> brain = villager.getBrain();
+         villager.releasePoi(this.memoryType);
+         brain.eraseMemory(this.memoryType);
